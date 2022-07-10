@@ -1,1 +1,108 @@
 = Selenium Example Project
+
+Project base for automated testing using Selenium & java.
+To show the application in action, several pages and page fragments for https://www.saucedemo.com/ have been implemented.
+
+== Assumptions
+
+- Use Selenium with Page Object Model (POM) pattern.
+- Avoiding calling `Thread.sleep(...)` in favor of `WebDriverWait.until(...)` with custom expected conditions.
+- WebDriver injected into test classes:
+* We can define the implementation and configuration of WebDriver in a test XML file,
+* We can reuse WebDriver in all test scope classes.
+- Reports with https://docs.qameta.io/allure/[Allure] framework.
+
+== Test XML definition
+
+Look at the link:src/test/resources/testng.xml[testng.xml] file.
+In the configuration file, we can specify the browser and its configuration to be used in the test.
+
+[source,xml]
+----
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="all">
+  <!-- run tests on Firefox with a FullHD window size -->
+  <test name="test1">
+    <parameter name="browser" value="firefox FullHD"/>
+    <classes>
+      <class name="mk.automation.test.LoginTest"/>
+    </classes>
+  </test>
+  <!-- run tests on Chrome with a default window size -->
+  <test name="test2">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="mk.automation.test.LoginTest"/>
+    </classes>
+  </test>
+  <!-- run tests on Chrome with a window size 800x600 -->
+  <test name="test3">
+    <parameter name="browser" value="chrome 800x600"/>
+    <classes>
+      <class name="mk.automation.test.LoginTest"/>
+      <class name="mk.automation.test.ProductsPageTest"/>
+    </classes>
+  </test>
+</suite>
+----
+
+== Implementation
+
+The list of interesting classes:
+
+- link:src/main/java/mk/automation/selenium/Page.java[Page.java] - base class for all page classes.
+- link:src/main/java/mk/automation/selenium/Fragment.java[Fragment.java] - base class for page fragments used multiple times on one or more pages.
+- link:src/main/java/mk/automation/selenium/condition/UrlConditions.java[UrlConditions.java] - example of custom "expected conditions" used to wait for something.
+- link:src/main/java/mk/automation/page/saucedemo/login/LoginPage.java[LoginPage.java] - sample class representing a page.
+- link:src/main/java/mk/automation/page/saucedemo/products/ProductsPage.java[ProductsPage.java] - sample class representing a page with fragments.
+- link:src/main/java/mk/automation/page/saucedemo/products/ItemFragment.java[ItemFragment.java] - sample page fragment class.
+- link:src/test/java/mk/automation/test/ProductsPageTest.java[ProductsPageTest.java] - sample test class.
+
+== How to run
+
+=== Preparation
+
+Required software:
+
+- Maven 3.8.x or later
+- JDK 17
+- Firefox
+- https://github.com/mozilla/geckodriver[geckodriver]
+- Google Chrome
+
+=== Run tests with maven
+
+To run tests call:
+
+[source]
+----
+mvn test
+----
+
+=== Reports
+
+To display reports type in shell:
+
+[source]
+----
+cd ./target/site/allure-maven-plugin
+jwebserver -p 8080
+----
+
+Or use maven:
+
+[source]
+----
+mvn allure:serve
+----
+
+== Technical Info
+
+What's used:
+
+- Java 17
+- TestNG
+- Selenium 4.x
+- Allure
+- Guice

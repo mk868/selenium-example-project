@@ -1,0 +1,26 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="all">
+  <!-- run tests on Firefox with a FullHD window size -->
+  <test name="test1">
+    <parameter name="browser" value="firefox FullHD"/>
+    <classes>
+      <class name="mk.automation.test.LoginTest"/>
+    </classes>
+  </test>
+  <!-- run tests on Chrome with a default window size -->
+  <test name="test2">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="mk.automation.test.LoginTest"/>
+    </classes>
+  </test>
+  <!-- run tests on Chrome with a window size 800x600 -->
+  <test name="test3">
+    <parameter name="browser" value="chrome 800x600"/>
+    <classes>
+      <class name="mk.automation.test.LoginTest"/>
+      <class name="mk.automation.test.ProductsPageTest"/>
+    </classes>
+  </test>
+</suite>
