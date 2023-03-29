@@ -1,5 +1,6 @@
 package mk.automation.page.saucedemo.login;
 
+import static mk.automation.selenium.condition.LoadConditions.loaded;
 import static mk.automation.selenium.jassert.WebDriverAssert.assertThat;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 
@@ -31,7 +32,7 @@ public class LoginPage extends Page<LoginPage> {
   }
 
   @Override
-  protected void isLoaded() throws Error {
+  public void isLoaded() throws Error {
     assertThat(webDriver)
         .expect(UrlConditions.pathToBe("/"))
         .expect(visibilityOf(usernameInput));
@@ -60,6 +61,6 @@ public class LoginPage extends Page<LoginPage> {
 
   public ProductsPage clickLoginButtonWithSuccess() {
     loginButton.click();
-    return new ProductsPage(getWrappedDriver());
+    return wait.until(loaded(new ProductsPage(getWrappedDriver())));
   }
 }

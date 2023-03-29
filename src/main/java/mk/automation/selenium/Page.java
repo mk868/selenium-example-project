@@ -1,6 +1,10 @@
 package mk.automation.selenium;
 
+import static mk.automation.selenium.jassert.WebDriverAssert.assertThat;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
+
 import io.qameta.allure.Allure;
+import mk.automation.selenium.condition.UrlConditions;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -39,6 +43,9 @@ public abstract class Page<T extends Page<T>> extends SlowLoadableComponent<T> i
   public WebDriver getWrappedDriver() {
     return webDriver;
   }
+
+  @Override
+  public abstract void isLoaded() throws Error;
 
   /**
    * Take page screenshot and append to the test report

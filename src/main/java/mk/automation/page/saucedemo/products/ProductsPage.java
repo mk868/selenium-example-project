@@ -24,7 +24,7 @@ public class ProductsPage extends Page<ProductsPage> {
   }
 
   @Override
-  protected void isLoaded() throws Error {
+  public void isLoaded() throws Error {
     assertThat(webDriver)
         .expect(UrlConditions.pathToBe("/inventory.html"));
   }
