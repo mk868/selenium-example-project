@@ -16,8 +16,7 @@ public class SauceDemo {
   }
 
   public LoginPage loginPage() {
-    driver.get("https://www.saucedemo.com/");
-    return new LoginPage(driver);
+    return new LoginPage(driver).get();
   }
 
 }

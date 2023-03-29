@@ -19,22 +19,22 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public abstract class Fragment implements WrapsDriver, WrapsElement {
 
-  private final WebDriver driver;
-  private final WebElement element;
+  protected final WebDriver webDriver;
+  protected final WebElement element;
   protected WebDriverWait wait;
 
-  protected Fragment(WebDriver driver, WebElement element) {
-    Objects.requireNonNull(driver, "driver must not be null");
+  protected Fragment(WebDriver webDriver, WebElement element) {
+    Objects.requireNonNull(webDriver, "driver must not be null");
     Objects.requireNonNull(element, "element must not be null");
     PageFactory.initElements(element, this);
-    this.driver = driver;
+    this.webDriver = webDriver;
     this.element = element;
-    this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    this.wait = new WebDriverWait(webDriver, Duration.ofSeconds(15));
   }
 
   @Override
   public WebDriver getWrappedDriver() {
-    return driver;
+    return webDriver;
   }
 
   @Override

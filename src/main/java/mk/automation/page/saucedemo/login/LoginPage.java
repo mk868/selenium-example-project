@@ -1,5 +1,8 @@
 package mk.automation.page.saucedemo.login;
 
+import static mk.automation.selenium.jassert.WebDriverAssert.assertThat;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
+
 import mk.automation.page.saucedemo.products.ProductsPage;
 import mk.automation.selenium.Page;
 import mk.automation.selenium.condition.UrlConditions;
@@ -7,7 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class LoginPage extends Page {
+public class LoginPage extends Page<LoginPage> {
 
   @FindBy(id = "user-name")
   private WebElement usernameInput;
@@ -15,12 +18,23 @@ public class LoginPage extends Page {
   private WebElement passwordInput;
   @FindBy(id = "login-button")
   private WebElement loginButton;
-  @FindBy(css = "[data-test=\"error\"]")
+  @FindBy(css = "[data-test='error']")
   private WebElement errorMessage;
 
   public LoginPage(WebDriver driver) {
     super(driver);
-    wait.until(UrlConditions.pathToBe("/"));
+  }
+
+  @Override
+  protected void load() {
+    webDriver.get("https://www.saucedemo.com/");
+  }
+
+  @Override
+  protected void isLoaded() throws Error {
+    assertThat(webDriver)
+        .expect(UrlConditions.pathToBe("/"))
+        .expect(visibilityOf(usernameInput));
   }
 
   public LoginPage typeUsername(String username) {
@@ -36,7 +50,7 @@ public class LoginPage extends Page {
   }
 
   public String getErrorMessage() {
-    return errorMessage.getText();
+    return wait.until(visibilityOf(errorMessage)).getText();
   }
 
   public LoginPage clickLoginButtonExpectingErrorMessage() {
